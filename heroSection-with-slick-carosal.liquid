@@ -1,0 +1,182 @@
+
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<div class="main__div" id="maindiv">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'svg' %}
+  <div class="hero__card">
+    <div class="svg__div">
+      {% if block.settings.svg_file!=blank %}
+      {{ block.settings.svg_file }}
+        {% else %}
+        <img src="{{ block.settings.svg_image | image_url}}" height="{{ section.settings.svg_height }}" width="{{ section.settings.svg_height }}" />
+        {% endif %}
+    </div>
+    <div class="hero__heading">
+      <h2>{{ block.settings.heading_text }}</h2>
+    </div>
+    
+  </div>
+      {% endcase %}
+    {% endfor %}
+</div>
+<style>
+  .hero__card svg{
+    height:{{section.settings.svg_height}}px;
+    width:{{section.settings.svg_height}}px;
+    fill:{{section.settings.svg_color}} !important;
+    stroke:none !important;
+    outline:none;
+  }
+  .hero__card svg path{
+    fill:{{section.settings.svg_color}} !important;
+    stroke:none !important;
+    outline:none;
+  }
+  .svg__div{
+    text-align:center;
+    
+  }
+  .svg__div img{
+    margin:0 auto;
+    margin-bottom:10px;
+        fill:{{section.settings.svg_color}} !important;
+  }
+  .main__div{
+    display:flex;
+    gap:20px;
+    padding-top:{{section.settings.padding_top}}px;
+   padding-bottom:{{section.settings.padding_bottom}}px;
+  }
+  .hero__card{
+     display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:25%;
+    text-align:center;
+  }
+  .hero__heading h2{
+    margin-top:0px;
+    padding:0px 5px 0px 5px;
+    text-align:center;
+  }
+</style>
+<script>
+  
+$('#maindiv').slick({
+  dots: true,
+  infinite: true,
+  speed: 300,
+  slidesToShow: 4,
+  slidesToScroll: 4,
+  autoplay: true,
+  arrows:true,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+});
+
+</script>
+{% schema %}
+  {
+  "name": "SVG Section",
+  "settings": [
+        {
+      "type": "range",
+      "id": "svg_height",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "svg_height",
+      "default": 50
+    },
+      {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    },
+    {
+          "type":"color",
+          "id":"svg_color",
+          "label":"svg color"
+    }
+  ],
+    "blocks":[
+      {
+        "type":"svg",
+        "name":"Svg File",
+        "limit":5,
+        "settings":[
+          {
+            "type":"text",
+            "id":"svg_file",
+            "default":"svg",
+            "label":"svg"
+          },
+          {
+            "type":"image_picker",
+            "id":"svg_image",
+            "label":"Svg Image"
+          },
+      {
+            "type":"text",
+            "id":"heading_text",
+            "default":"Hero 1",
+            "label":"Hero"
+          }
+        ]
+    }
+    ],
+    "presets":[
+      {
+        "name":"Hero Section"
+      }
+    ]
+}
+{% endschema %}
