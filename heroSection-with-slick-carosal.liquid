@@ -5,6 +5,8 @@
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+<div class="main">
+  <h1 class="topHeading">{{ section.settings.topHeading }}</h1>
 <div class="main__div" id="maindiv">
   {% for block in section.blocks %}
     {% case block.type %}
@@ -25,7 +27,19 @@
       {% endcase %}
     {% endfor %}
 </div>
+  </div>
 <style>
+  .main{
+    padding-top:{{section.settings.padding_top}}px;
+   padding-bottom:{{section.settings.padding_bottom}}px;
+   background-color:{{section.settings.bg_color}};
+    color:{{section.settings.text_color}}
+  }
+  .topHeading{
+  margin:10px;
+    text-align:{{section.settings.desktop_content_position}};
+    margin-bottom:30px;
+  }
   .hero__card svg{
     height:{{section.settings.svg_height}}px;
     width:{{section.settings.svg_height}}px;
@@ -44,14 +58,13 @@
   }
   .svg__div img{
     margin:0 auto;
-    margin-bottom:10px;
+    margin-bottom:15px;
         fill:{{section.settings.svg_color}} !important;
   }
   .main__div{
     display:flex;
     gap:20px;
-    padding-top:{{section.settings.padding_top}}px;
-   padding-bottom:{{section.settings.padding_bottom}}px;
+
   }
   .hero__card{
      display:flex;
@@ -64,24 +77,26 @@
     margin-top:0px;
     padding:0px 5px 0px 5px;
     text-align:center;
+    color:{{section.settings.text_color}}
   }
 </style>
 <script>
+  var herocard=document.querySelectorAll(".hero__card");
   
 $('#maindiv').slick({
   dots: true,
   infinite: true,
   speed: 300,
-  slidesToShow: 4,
-  slidesToScroll: 4,
+   slidesToShow: herocard.length-1,
+   slidesToScroll: 1,
   autoplay: true,
-  arrows:true,
   responsive: [
+        
     {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
         infinite: true,
         dots: true
       }
@@ -90,7 +105,7 @@ $('#maindiv').slick({
       breakpoint: 600,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2
+        slidesToScroll: 1
       }
     },
     {
@@ -111,6 +126,44 @@ $('#maindiv').slick({
   {
   "name": "SVG Section",
   "settings": [
+    
+    {
+      "type":"text",
+      "id":"topHeading",
+      "default":"Heading Text",
+      "label":"Heading Text"
+    },
+    {
+      "type":"color",
+      "id":"bg_color",
+      
+      "label":"Background Color"
+    },
+    {
+      "type":"color",
+      "id":"text_color",
+      "label":"Text Color"
+    },
+     {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Centered"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Heading Text Position"
+    },
         {
       "type": "range",
       "id": "svg_height",
@@ -125,7 +178,7 @@ $('#maindiv').slick({
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 50,
+      "max": 100,
       "step": 2,
       "unit": "px",
       "label": "Padding Top",
@@ -135,7 +188,7 @@ $('#maindiv').slick({
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 50,
+      "max": 100,
       "step": 2,
       "unit": "px",
       "label": "Padding Bottom",
